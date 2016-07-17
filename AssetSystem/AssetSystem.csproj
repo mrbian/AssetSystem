@@ -33,7 +33,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,12 +52,52 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adaptor\AdminAdaptor.cs" />
+    <Compile Include="Adaptor\BaseAdaptor.cs" />
+    <Compile Include="Adaptor\EquipmentTypeAdaptor.cs" />
+    <Compile Include="Adaptor\MyException.cs" />
+    <Compile Include="Adaptor\UserAdaptor.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ControllerCtx.cs" />
+    <Compile Include="Controllers\Enum\EnumChoose.cs" />
+    <Compile Include="Controllers\Enum\EnumOperator.cs" />
+    <Compile Include="Controllers\EquipmentController.cs" />
+    <Compile Include="Controllers\EquipmentTypeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Library\Util.cs" />
+    <Compile Include="Migrations\201607170525205_Migrate.cs" />
+    <Compile Include="Migrations\201607170525205_Migrate.Designer.cs">
+      <DependentUpon>201607170525205_Migrate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Admin.cs" />
+    <Compile Include="Models\DbInitializer.cs" />
+    <Compile Include="Models\Equipment.cs" />
+    <Compile Include="Models\EquipmentType.cs" />
+    <Compile Include="Models\History.cs" />
+    <Compile Include="Models\theContext.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\AdminViews.cs" />
+    <Compile Include="Views\BaseViews.cs" />
+    <Compile Include="Views\EquipmentTypeViews.cs" />
+    <Compile Include="Views\EquipmentViews.cs" />
+    <Compile Include="Views\UserViews.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201607170525205_Migrate.resx">
+      <DependentUpon>201607170525205_Migrate.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
