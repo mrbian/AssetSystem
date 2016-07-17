@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AssetSystem.Models
 {
@@ -9,8 +10,8 @@ namespace AssetSystem.Models
         {
             
         }
-        [Key]
-        public string Id { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
         public string LogicId { get; set; }
         public string Title { get; set; }

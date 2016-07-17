@@ -22,7 +22,7 @@ namespace AssetSystem.Migrations
                 "dbo.Equipments",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
+                        Id = c.Int(nullable: false, identity: true),
                         LogicId = c.String(),
                         Title = c.String(),
                         Worth = c.Double(nullable: false),
@@ -45,10 +45,10 @@ namespace AssetSystem.Migrations
                 "dbo.EquipmentTypes",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
                         Type = c.Int(nullable: false),
-                        BigEquipmentType_Id = c.Int(nullable: false),
+                        BigEquipmentType_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.EquipmentTypes", t => t.BigEquipmentType_Id)

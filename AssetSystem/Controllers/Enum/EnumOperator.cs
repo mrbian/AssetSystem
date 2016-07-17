@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace AssetSystem.Controllers.Enum
 {
-    public enum OperatorOptions
+    public enum EnumEquipmentTypeOperatorOptions
     {
         Add = 1,
         Delete = 2,
-        Update = 3,
-        Search = 4
+        PrintAll = 3,
+        Exit = 4
     }
 }

@@ -34,50 +34,38 @@ namespace AssetSystem.Controllers
             Choose();
         }
 
+        /// <summary>
+        /// 对用户的选择进行判断并分发到指定Controller
+        /// </summary>
         public void Choose()
         {
             int op = AdminViews.ShowChoose();
             switch (op)
             {
+                #region 调用设备种类Controller对设备种类进行管理
                 case (int)ChooseOptions.EquipmentTypeCtrl:
                     CtrlCtx.GetEquipmentTypeController().EquipmentTypeCtrl();
                     break;
-
+                #endregion
+                #region 调用设备Controller对设备进行管理
                 case (int)ChooseOptions.EquipmentCtrl:
-                    EquipmentCtrl();
                     break;
-
+                #endregion
+                #region 调用用户Controller对用户进行管理
                 case (int)ChooseOptions.UserCtrl:
-                    UserCtrl();
                     break;
-
+                #endregion
+                #region 修改Admin的账户密码
                 case (int)ChooseOptions.ChangePassword:
-                    ChangePassword();
                     break;
-
+                #endregion
+                //都不满足则让用户重新选取
                 default:
                     AdminViews.ShowChooseError();
-                    Choose();
                     break;
             }
+            Choose(); //执行完毕后重新调用执行
         }
 
-
-        
-
-        public void EquipmentCtrl()
-        {
-            int op = AdminViews.EquipmentCtrl();
-        }
-
-        public void UserCtrl()
-        {
-            int op = AdminViews.UserCtrl();
-        }
-
-        public void ChangePassword()
-        {
-            AdminViews.ChangePassword();
-        }
     }
 }

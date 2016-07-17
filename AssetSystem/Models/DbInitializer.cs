@@ -17,6 +17,7 @@ namespace AssetSystem.Models
         {
             AdminSeed();
             UserSeed();
+            EquipmentTypeSeed();
         }
 
     
@@ -90,6 +91,7 @@ namespace AssetSystem.Models
                 {
                     dbCtx.EquipmentTypes.Add(bigEquipmentType);
                 }
+                dbCtx.SaveChanges();
 
                 IList<EquipmentType> smallEquipmentTypes = new List<EquipmentType>();
 

@@ -13,7 +13,7 @@ namespace AssetSystem.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201607170525205_Migrate"; }
+            get { return "201607171316020_Migrate"; }
         }
         
         string IMigrationMetadata.Source

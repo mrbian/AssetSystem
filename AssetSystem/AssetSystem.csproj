@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Adaptor\AdminAdaptor.cs" />
     <Compile Include="Adaptor\BaseAdaptor.cs" />
+    <Compile Include="Adaptor\EquipmentAdaptor.cs" />
     <Compile Include="Adaptor\EquipmentTypeAdaptor.cs" />
     <Compile Include="Adaptor\MyException.cs" />
     <Compile Include="Adaptor\UserAdaptor.cs" />
@@ -66,9 +67,9 @@
     <Compile Include="Controllers\EquipmentTypeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Library\Util.cs" />
-    <Compile Include="Migrations\201607170525205_Migrate.cs" />
-    <Compile Include="Migrations\201607170525205_Migrate.Designer.cs">
-      <DependentUpon>201607170525205_Migrate.cs</DependentUpon>
+    <Compile Include="Migrations\201607171316020_Migrate.cs" />
+    <Compile Include="Migrations\201607171316020_Migrate.Designer.cs">
+      <DependentUpon>201607171316020_Migrate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -93,11 +94,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607170525205_Migrate.resx">
-      <DependentUpon>201607170525205_Migrate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607171316020_Migrate.resx">
+      <DependentUpon>201607171316020_Migrate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

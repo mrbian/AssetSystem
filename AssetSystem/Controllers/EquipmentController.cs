@@ -13,10 +13,10 @@ namespace AssetSystem.Controllers
         public EquipmentController() : base()
         {
             EquipmentViews = EquipmentViews ?? new EquipmentViews();
-            EquipmentTypeAdaptor = EquipmentTypeAdaptor ?? new EquipmentTypeAdaptor();
+            EquipmentAdaptor = EquipmentAdaptor ?? new EquipmentAdaptor();
         }
 
         public EquipmentViews EquipmentViews;
-        public EquipmentTypeAdaptor EquipmentTypeAdaptor;
+        public EquipmentAdaptor EquipmentAdaptor;
     }
 }

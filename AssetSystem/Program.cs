@@ -17,8 +17,10 @@ namespace AssetSystem
             #endregion
 
             #region 初始化登录
+
             ControllerCtx ctrlCtx = new ControllerCtx();
             ctrlCtx.GetAdminController().Auth();
+
             #endregion
         }
     }

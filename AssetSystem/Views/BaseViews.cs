@@ -8,9 +8,26 @@ namespace AssetSystem.Views
 {
     class BaseViews
     {
+        //todo 对用户的输入合法进行严格验证
         public BaseViews()
         {
             
+        }
+
+        /// <summary>
+        /// 操作成功
+        /// </summary>
+        public void OperatorSuccess()
+        {
+            Console.WriteLine("操作成功");
+        }
+
+        /// <summary>
+        /// 操作失败
+        /// </summary>
+        public void OperatorFail()
+        {
+            Console.WriteLine("操作失败");
         }
 
         /// <summary>

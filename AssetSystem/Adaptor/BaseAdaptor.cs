@@ -7,7 +7,7 @@ namespace AssetSystem.Adaptor
         public TheContext DbCtx;
         public BaseAdaptor()
         {
-            this.DbCtx = new TheContext();
+            DbCtx = DbCtx ?? new TheContext();
         }
     }
 }

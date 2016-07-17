@@ -29,7 +29,7 @@ namespace AssetSystem.Models
 
             modelBuilder.Entity<EquipmentType>()
                 .HasMany<EquipmentType>(t => t.SmallEquipmentTypes)
-                .WithRequired(t => t.BigEquipmentType);
+                .WithOptional(t => t.BigEquipmentType);
 
             modelBuilder.Entity<EquipmentType>()
                 .HasMany(t => t.Equipments)
