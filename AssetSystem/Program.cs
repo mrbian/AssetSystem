@@ -12,7 +12,7 @@ namespace AssetSystem
         static void Main(string[] args)
         {
             #region 设置控制台颜色
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.Cyan;
             #endregion
 
