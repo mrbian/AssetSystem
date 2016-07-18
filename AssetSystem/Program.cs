@@ -12,8 +12,8 @@ namespace AssetSystem
         static void Main(string[] args)
         {
             #region 设置控制台颜色
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.BackgroundColor = ConsoleColor.DarkGray;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.BackgroundColor = ConsoleColor.Cyan;
             #endregion
 
             #region 初始化登录
