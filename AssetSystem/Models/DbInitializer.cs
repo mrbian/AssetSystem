@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using AssetSystem.Library;
 
 namespace AssetSystem.Models
@@ -8,21 +10,42 @@ namespace AssetSystem.Models
     {
         public DbInitializer()
         {
-            Util = new Util();
         }
 
-        public Util Util;
 
         public void Seed()
         {
+            DeleteAllData();
             AdminSeed();
             UserSeed();
             EquipmentTypeSeed();
+            EquipmentSeed();
+            HistorySeed();
         }
 
+        
+        /// <summary>
+        /// 清空所有的数据
+        /// </summary>
+        public void DeleteAllData()
+        {
+            using (var dbCtx = new TheContext())
+            {
+                dbCtx.Histories.Clear();
+                dbCtx.Equipments.Clear();
+                dbCtx.EquipmentTypes.Clear();
+                dbCtx.Users.Clear();
+                dbCtx.Admins.Clear();
+                dbCtx.SaveChanges();
+            }
+        }
     
+        /// <summary>
+        /// 管理员数据Seed
+        /// </summary>
         public void AdminSeed()
         {
+            Console.WriteLine("管理员Seed");
             using (var dbCtx = new TheContext())
             {
              
@@ -47,13 +70,17 @@ namespace AssetSystem.Models
             }
         }
 
+        /// <summary>
+        /// 用户数据Seed
+        /// </summary>
         public void UserSeed()
         {
+            Console.WriteLine("用户Seed");
             using (var dbCtx = new TheContext())
             {
                 IList<User> defaultUsers = new List<User>();
 
-                for (var i = 0; i < 10; i++)
+                for (var i = 0; i < 3; i++)
                 {
                     defaultUsers.Add(new User()
                     {
@@ -72,11 +99,15 @@ namespace AssetSystem.Models
             }
         }
 
+        /// <summary>
+        /// 设备类型Seed
+        /// </summary>
         public void EquipmentTypeSeed()
         {
+            Console.WriteLine("设备类型Seed");
             using (var dbCtx = new TheContext())
             {
-                IList<EquipmentType> bigEquipmentTypes = new List<EquipmentType>();
+                IList<EquipmentType> bigEquipmentTypes = new List<EquipmentType>();//大类数据Seed
 
                 for (var i = 0; i < 5; i++)
                 {
@@ -93,32 +124,75 @@ namespace AssetSystem.Models
                 }
                 dbCtx.SaveChanges();
 
-                IList<EquipmentType> smallEquipmentTypes = new List<EquipmentType>();
+                IList<EquipmentType> smallEquipmentTypes = new List<EquipmentType>(); //小类数据Seed
 
                 for (var i = 0; i < 5; i++)
                 {
                     smallEquipmentTypes.Add(new EquipmentType()
                     {
                         Title = "小类" + i.ToString(),
-                        Type = 1
+                        Type = 1,
+                        BigEquipmentType = bigEquipmentTypes[i] //设置小类所属大类的Id
                     });
                 }
 
                 foreach (var smallEquipmentType in smallEquipmentTypes)
                 {
-                        
+                    dbCtx.EquipmentTypes.Add(smallEquipmentType);
                 }
+
+                dbCtx.SaveChanges();
             }
         }
 
+
+        /// <summary>
+        /// 设备数据Seed
+        /// </summary>
         public void EquipmentSeed()
         {
-            
+            Console.WriteLine("设备Seed");
+            using (var dbCtx = new TheContext())
+            {
+                IList<EquipmentType> smallEquipmentTypes = dbCtx
+                    .EquipmentTypes
+                    .Where(et => et.Type == 1)
+                    .ToList();
+                IList<User> users = dbCtx.Users
+                    .ToList();
+                var admin = dbCtx.Admins.First();
+                foreach (var smallEquipmentType in smallEquipmentTypes)
+                {
+                    foreach (var user in users)
+                    {
+                        for (var i = 0; i < 2; i++)
+                        {
+                            dbCtx.Equipments.Add(new Equipment()
+                            {
+                                Title = "设备" + i,
+                                LogicId = Util.GenerateIntId(),
+                                Worth = 20,
+                                PurchasingDate = new DateTime(2016, 7, 18).Date,
+                                State = 1,
+                                Remark = "备注",
+                                EquipmentType = smallEquipmentType,
+                                User = user,
+                                Admin = admin
+                            });
+                        }
+                    }
+                }
+                dbCtx.SaveChanges();
+            }
         }
 
+
+        /// <summary>
+        /// 借记历史Seed
+        /// </summary>
         public void HistorySeed()
         {
-            
+            Console.WriteLine("借记历史Seed");
         }
     }
 }

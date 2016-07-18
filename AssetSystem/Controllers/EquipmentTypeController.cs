@@ -109,7 +109,7 @@ namespace AssetSystem.Controllers
             }
         }
 
-        protected void PrintAllEquipmentType()
+        public void PrintAllEquipmentType()
         {
             EquipmentTypeViews
                 .PrintAllEquipmentType(EquipmentTypeAdaptor.GetAllEquipmentTypes());//打印所有的设备种类

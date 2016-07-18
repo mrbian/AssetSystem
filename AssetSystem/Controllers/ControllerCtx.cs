@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AssetSystem.Models;
 
 namespace AssetSystem.Controllers
 {
@@ -12,8 +13,12 @@ namespace AssetSystem.Controllers
         {
         }
 
+
+
         private AdminController _adminController;
         private EquipmentTypeController _equipmentTypeController;
+        private EquipmentController _equipmentController;
+        private UserController _userController;
 
         public AdminController GetAdminController()
         {
@@ -23,6 +28,16 @@ namespace AssetSystem.Controllers
         public EquipmentTypeController GetEquipmentTypeController()
         {
             return _equipmentTypeController ?? (_equipmentTypeController = new EquipmentTypeController());
+        }
+
+        public EquipmentController GetEquipmentController()
+        {
+            return _equipmentController ?? (_equipmentController = new EquipmentController()); 
+        }
+
+        public UserController GetUserController()
+        {
+            return _userController ?? (_userController = new UserController());
         }
     }
 

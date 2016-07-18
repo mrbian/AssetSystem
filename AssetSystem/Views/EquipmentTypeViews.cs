@@ -21,6 +21,7 @@ namespace AssetSystem.Views
         /// <returns>用户选择的操作符int</returns>
         public int EquipmentTypeCtrl()
         {
+            Clear(); //清空控制台
             Console.WriteLine("------设备种类管理------");
             Console.WriteLine("请输入数字执行您想要进行的操作：");
             Console.WriteLine("1、增加设备种类");
@@ -37,7 +38,7 @@ namespace AssetSystem.Views
         /// <param name="equipmentTypes">设备种类的List数据集</param>
         public void PrintAllEquipmentType(List<EquipmentType> equipmentTypes)
         {
-            Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++");
+            Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             Console.WriteLine("类别Id   |  类别名称 |  类别类型  |  小类所属大类Id");
             foreach (EquipmentType equipmentType in equipmentTypes)
             {
@@ -46,6 +47,7 @@ namespace AssetSystem.Views
                     equipmentType.Type.ToString() + " |  " +
                     (equipmentType.BigEquipmentType == null ? "NULL" : equipmentType.BigEquipmentType.Id.ToString()  ));
             }
+            Pause();
         }
 
         /// <summary>
@@ -92,6 +94,7 @@ namespace AssetSystem.Views
         public void ShowIdNullError()
         {
             Console.WriteLine("指定Id的设备种类不存在");
+            Pause();
         }
 
         /// <summary>
@@ -100,6 +103,7 @@ namespace AssetSystem.Views
         public void ShowEquipmentTypeHasEquipmentError()
         {
             Console.WriteLine("指定设备大类下有设备小类，请先删除对应设备小类");
+            Pause();
         }
 
         /// <summary>
@@ -108,6 +112,7 @@ namespace AssetSystem.Views
         public void ShowSmallEquipmentTypeHasEquipmentError()
         {
             Console.WriteLine("指定设备小类下有设备，请先删除对应设备");
+            Pause();
         }
     }
 }

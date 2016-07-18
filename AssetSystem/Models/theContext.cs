@@ -21,19 +21,20 @@ namespace AssetSystem.Models
 
             modelBuilder.Entity<Admin>()
                 .HasMany(a => a.Equipments)
-                .WithRequired(e => e.Admin);
+                .WithRequired(e => e.Admin); //配置管理员和设备的one To Many关系
 
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Equipments)
-                .WithOptional(e => e.User);
+                .WithOptional(e => e.User); //配置用户和设备的one or zero To Many 关系
 
             modelBuilder.Entity<EquipmentType>()
                 .HasMany<EquipmentType>(t => t.SmallEquipmentTypes)
-                .WithOptional(t => t.BigEquipmentType);
+                .WithOptional(t => t.BigEquipmentType);  //配置大类和小类的 one To Many 关系
 
             modelBuilder.Entity<EquipmentType>()
                 .HasMany(t => t.Equipments)
-                .WithRequired(e => e.EquipmentType);
+                .WithRequired(e => e.EquipmentType); //配置设备种类和设备的one To Many关系
         }
+
     }
 }

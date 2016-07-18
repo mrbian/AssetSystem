@@ -18,5 +18,7 @@ namespace AssetSystem.Controllers
 
         public UserViews UserViews;
         public UserAdaptor UserAdaptor;
+
+        
     }
 }

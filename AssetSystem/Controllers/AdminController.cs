@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,18 @@ namespace AssetSystem.Controllers
 {
     class AdminController : BaseController
     {
+        private static Admin _admin;
+
+        public void Login(Admin admin)
+        {
+            _admin = admin;
+        }
+
+        public Admin GetCurrentAdmin()
+        {
+            return _admin;
+        }
+
         public AdminController() : base()
         {
             AdminViews = AdminViews ?? new AdminViews();
@@ -21,6 +34,8 @@ namespace AssetSystem.Controllers
         public AdminAdaptor AdminAdaptor;
         public AdminViews AdminViews;
 
+        //todo : 管理员存储放在这里还是崩溃
+        
         //get Auth
         public void Auth()
         {
@@ -31,6 +46,7 @@ namespace AssetSystem.Controllers
                 AdminViews.ShowLoginError();
                 Auth();
             }
+            Login(admin);  //管理登录，上下文保存当前登录的管理员的信息
             Choose();
         }
 
@@ -39,7 +55,7 @@ namespace AssetSystem.Controllers
         /// </summary>
         public void Choose()
         {
-            int op = AdminViews.ShowChoose();
+            int op = AdminViews.ShowChoose(GetCurrentAdmin());
             switch (op)
             {
                 #region 调用设备种类Controller对设备种类进行管理
@@ -49,6 +65,7 @@ namespace AssetSystem.Controllers
                 #endregion
                 #region 调用设备Controller对设备进行管理
                 case (int)ChooseOptions.EquipmentCtrl:
+                    CtrlCtx.GetEquipmentController().EquipmentCtrl();
                     break;
                 #endregion
                 #region 调用用户Controller对用户进行管理
