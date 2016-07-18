@@ -34,7 +34,7 @@ namespace AssetSystem.Controllers
         public AdminAdaptor AdminAdaptor;
         public AdminViews AdminViews;
 
-        //todo : 管理员存储放在这里还是崩溃
+        //todo : 管理员存储放在这里不是静态的话还是会被清空
         
         //get Auth
         public void Auth()
@@ -70,10 +70,12 @@ namespace AssetSystem.Controllers
                 #endregion
                 #region 调用用户Controller对用户进行管理
                 case (int)ChooseOptions.UserCtrl:
+                    CtrlCtx.GetUserController().UserCtrl();
                     break;
                 #endregion
                 #region 修改Admin的账户密码
                 case (int)ChooseOptions.ChangePassword:
+                    ChangePassword();
                     break;
                 #endregion
                 //都不满足则让用户重新选取
@@ -84,5 +86,11 @@ namespace AssetSystem.Controllers
             Choose(); //执行完毕后重新调用执行
         }
 
+        public void ChangePassword()
+        {
+            string newPassword = AdminViews.ChangePassword(); //得到用户输入的新密码
+            AdminAdaptor.AdminChangePassword(GetCurrentAdmin().Account, GetCurrentAdmin().Password, newPassword);
+            AdminViews.OperatorSuccess();
+        }
     }
 }

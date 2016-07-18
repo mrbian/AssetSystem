@@ -15,5 +15,7 @@ namespace AssetSystem.Models
         public int Id { get; set; }
         public DateTime ReturnDate { get; set; }
         public string EquipmentTitle { get; set; }
+        public string UserName { get; set; }
+        public string AdminAccount { get; set; }
     }
 }

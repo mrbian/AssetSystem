@@ -61,9 +61,12 @@ namespace AssetSystem.Views
         /// <summary>
         /// 打印修改密码
         /// </summary>
-        public void ChangePassword()
+        public string ChangePassword()
         {
             Console.WriteLine("------修改密码------");
+            Console.WriteLine("请输入新密码：");
+            string newPassword = Console.ReadLine();
+            return newPassword;
         }
     }
     

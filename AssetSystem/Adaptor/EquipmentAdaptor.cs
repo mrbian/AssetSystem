@@ -95,11 +95,93 @@ namespace AssetSystem.Adaptor
                 .FirstOrDefault(e => e.Id == Id);
         }
 
+        /// <summary>
+        /// 更新所给equipment
+        /// </summary>
+        /// <param name="equipment"></param>
+        /// <returns></returns>
         public int UpdateEquipment(Equipment equipment)
         {
             DbCtx.Entry(equipment).State = EntityState.Modified;
             DbCtx.SaveChanges();
             return 1;
+        }
+
+        /// <summary>
+        /// 根据大类查找设备
+        /// </summary>
+        /// <param name="bigTypeId"></param>
+        /// <returns>设备List数组</returns>
+        public List<Equipment> FindEquipmentsByBigType(int bigTypeId)
+        {
+            List<Equipment> equipments = new List<Equipment>();
+            var bigEquipmentType = DbCtx.EquipmentTypes
+                .FirstOrDefault(et => et.Id == bigTypeId);
+            if (bigEquipmentType == null || bigEquipmentType.Type == 1) //如果没有或者是小类，返回空
+            {
+                return equipments; //返回空
+            }
+            List<EquipmentType> smallEquipmentTypes = DbCtx.EquipmentTypes
+                .Where(et => et.BigEquipmentType.Id == bigTypeId)
+                .ToList(); //根据大类Id获得所有小类
+            if (smallEquipmentTypes.Count == 0) //如果没有小类
+            {
+                return equipments; //返回空
+            }
+            foreach (var smallEquipment in smallEquipmentTypes) //向结果中加入每个小类下的设备
+            {
+                equipments.AddRange(DbCtx.Equipments
+                    .Where(e => e.EquipmentType.Id == smallEquipment.Id)
+                    .ToList()); 
+            }
+            return equipments;
+        }
+
+        /// <summary>
+        /// 根据小类的Id查找
+        /// </summary>
+        /// <param name="smallTypeId"></param>
+        /// <returns>查找的List结果集</returns>
+        public List<Equipment> FindEquipmentsBySmallType(int smallTypeId)
+        {
+            List<Equipment> equipments = new List<Equipment>();
+            var smallEquipmentType = DbCtx.EquipmentTypes
+                .FirstOrDefault(et => et.Id == smallTypeId);
+            if (smallEquipmentType == null || smallEquipmentType.Type == 0) //如果没有或者是大类，返回空List
+            {
+                return equipments;
+            }
+            equipments = DbCtx.Equipments
+                .Where(e => e.EquipmentType.Id == smallTypeId)
+                .ToList(); //按照小类查找设备
+            return equipments;
+        }
+
+        /// <summary>
+        /// 按照逻辑Id查找
+        /// </summary>
+        /// <param name="logicId">设备的逻辑Id</param>
+        /// <returns>查询的结果List</returns>
+        public List<Equipment> FindEquipmentsByLogicId(string logicId)
+        {
+            List<Equipment> equipments = new List<Equipment>();
+            equipments.Add(DbCtx.Equipments
+                .FirstOrDefault(e => e.LogicId == logicId));
+            return equipments;
+        }
+
+        /// <summary>
+        /// 根据用户的Id查询并返回结果集
+        /// </summary>
+        /// <param name="userId">用户的Id</param>
+        /// <returns>查询结果</returns>
+        public List<Equipment> FindEquipmentByUserId(int userId)
+        {
+            List<Equipment> equipments = new List<Equipment>();
+            equipments = DbCtx.Equipments
+                .Where(e => e.User.Id == userId)
+                .ToList();
+            return equipments;
         }
 
         /// <summary>
@@ -109,6 +191,76 @@ namespace AssetSystem.Adaptor
         public List<Equipment> GetAllEquipments()
         {
             return DbCtx.Equipments.ToList();
+        }
+
+        /// <summary>
+        /// 领用某一设备
+        /// </summary>
+        /// <param name="userId">要领用设备的用户Id</param>
+        /// <param name="equipmentId">被领用设备的Id</param>
+        /// <returns>
+        /// 1 : 操作成功
+        /// 0 : 没有对应的user或者没有对应的设备
+        /// -1 : 设备已经被占用
+        /// -2 : 设备在维修或已经报废
+        /// </returns>
+        public int BorrowEquipment(int userId, int equipmentId)
+        {
+            var user = DbCtx.Users
+                .FirstOrDefault(u => u.Id == userId); //得到用户
+            var equipment = DbCtx.Equipments
+                .FirstOrDefault(e => e.Id == equipmentId); //得到设备
+            if (user == null || equipment == null)
+            {
+                return 0;
+            }
+            if (equipment.User != null) //设备被占用
+            {
+                return -1;
+            }
+            if (equipment.State != 0) //设备在维修或者报废
+            {
+                return -2;
+            }
+            equipment.User = user; //修改用户为指定用户
+            DbCtx.Entry(equipment).State = EntityState.Modified;
+            DbCtx.SaveChanges();
+            return 1;
+        }
+
+        /// <summary>
+        /// 设备的归还
+        /// </summary>
+        /// <param name="equipmentId"></param>
+        /// <returns>
+        /// 0 : 指定Id的设备不存在
+        /// 1 : 操作成功
+        /// -1 : 指定设备未被领用
+        /// </returns>
+        public int ReturnEquipment(int equipmentId,string adminAccount)
+        {
+            var equipment = DbCtx.Equipments
+                .FirstOrDefault(e => e.Id == equipmentId);
+            if (equipment == null)
+            {
+                return 0;
+            }
+            if (equipment.User == null)
+            {
+                return -1;
+            }
+            DbCtx.Histories.Add(new History()
+            {
+                ReturnDate = DateTime.Now,
+                EquipmentTitle = equipment.Title,
+                UserName = equipment.User.Name,
+                AdminAccount = adminAccount
+            }); //添加归还记录
+
+            equipment.User = null;  //删除当前领用用户
+            DbCtx.Entry(equipment).State = EntityState.Modified;
+            DbCtx.SaveChanges();
+            return 1;
         }
     }
 }

@@ -71,6 +71,10 @@
     <Compile Include="Migrations\201607171316020_Migrate.Designer.cs">
       <DependentUpon>201607171316020_Migrate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607181118147_Migrate1.cs" />
+    <Compile Include="Migrations\201607181118147_Migrate1.Designer.cs">
+      <DependentUpon>201607181118147_Migrate1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\DbInitializer.cs" />
@@ -91,11 +95,15 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201607171316020_Migrate.resx">
       <DependentUpon>201607171316020_Migrate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607181118147_Migrate1.resx">
+      <DependentUpon>201607181118147_Migrate1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

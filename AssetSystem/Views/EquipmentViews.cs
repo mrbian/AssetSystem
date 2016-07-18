@@ -31,7 +31,10 @@ namespace AssetSystem.Views
             Console.WriteLine("2、删除设备");
             Console.WriteLine("3、修改设备");
             Console.WriteLine("4、打印所有设备");
-            Console.WriteLine("5、退出到上一层");
+            Console.WriteLine("5、按条件查找设备");
+            Console.WriteLine("6、借用设备");
+            Console.WriteLine("7、归还设备");
+            Console.WriteLine("8、退出到上一层");
             int op = Convert.ToInt32(Console.ReadLine());
             return op;
         }
@@ -137,8 +140,9 @@ namespace AssetSystem.Views
         /// <param name="equipments">List型设备数据</param>
         public void PrintAllEquipments(List<Equipment> equipments)
         {
+            //todo 自动化打印所有的列，并对齐数据
             Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            Console.WriteLine("设备Id  |  设备名称  |   设备逻辑Id  |   设备价格  |   设备购买日期   |  设备状态  |  备注  | 设备所属设备小类的Id");
+            Console.WriteLine("设备Id  |  设备名称  |   设备逻辑Id  |   设备价格  |   设备购买日期   |  设备状态  |  备注  | 设备所属设备小类的Id  | 当前占用者  | 所属管理员");
             foreach (var equipment in equipments)
             {
                 Console.WriteLine(equipment.Id + "   |   " + 
@@ -149,8 +153,129 @@ namespace AssetSystem.Views
                     (equipment.State == 1 ? "正常" : equipment.State == 0 ? "报废" :
                     equipment.State == 2 ? "维修中" : "其他") + "   |   " + 
                     equipment.Remark + "    |    " + 
+                    (equipment.User == null ? "空闲" : equipment.User.Id.ToString()) + "    |    " +
+                    equipment.Admin.Account + "   |    " + 
                     equipment.EquipmentType.Id);
             }
+            Pause();
+        }
+
+        /// <summary>
+        /// 按条件查找并获取验证返回用户输入
+        /// </summary>
+        public int FindEquipment()
+        {
+            Console.WriteLine("输入对应数字按条件查找：");
+            Console.WriteLine("1、按设备大类浏览");
+            Console.WriteLine("2、按设备小类浏览");
+            Console.WriteLine("3、按设备编号查询");
+            Console.WriteLine("4、按用户查询");
+            int op = Convert.ToInt32(Console.ReadLine());
+            return op;
+        }
+
+
+        /// <summary>
+        /// 打印按大类查找并获取验证返回用户输入
+        /// </summary>
+        /// <returns>设备大类的Id</returns>
+        public int FindEquipmentByBigType()
+        {
+            Console.WriteLine("请输入设备大类的Id");
+            int Id = Convert.ToInt32(Console.ReadLine());
+            return Id;
+        }
+
+        /// <summary>
+        /// 打印按小类查找并获取验证返回用户输入
+        /// </summary>
+        /// <returns>设备小类的Id</returns>
+        public int FindEquipmentBySmallType()
+        {
+            Console.WriteLine("请输入设备小类的Id");
+            int Id = Convert.ToInt32(Console.ReadLine());
+            return Id;
+        }
+
+        /// <summary>
+        /// 打印按逻辑Id查找并获取、验证、返回用户输入
+        /// </summary>
+        /// <returns>设备的逻辑Id</returns>
+        public string FindEquipmentByLogicId()
+        {
+            Console.WriteLine("请输入设备的逻辑Id即编号");
+            string logicId = Console.ReadLine();
+            return logicId;
+        }
+
+        /// <summary>
+        /// 打印按用户Id查询并获取、验证、返回用户输入
+        /// </summary>
+        /// <returns>用户的Id</returns>
+        public int FindEquipmentByUserId()
+        {
+            Console.WriteLine("请输入某用户的Id来查找其领用的所有资产");
+            int Id = Convert.ToInt32(Console.ReadLine());
+            return Id;
+        }
+
+        /// <summary>
+        /// 打印领用设备并获取、验证、返回用户输入
+        /// </summary>
+        /// <returns>
+        /// Dictionary
+        /// 0 : 要领用设备的人的Id
+        /// 1 : 要被领用的设备的Id
+        /// </returns>
+        public Dictionary<int,int> BorrowEquipment()
+        {
+            Dictionary<int,int> dictionary = new Dictionary<int, int>();
+            Console.WriteLine("请输入要领用设备的人的Id");
+            int userId = Convert.ToInt32(Console.ReadLine());
+            dictionary.Add(0,userId);
+            
+            Console.WriteLine("请输入要被领用的设备的Id");
+            int equipmentId = Convert.ToInt32(Console.ReadLine());
+            dictionary.Add(1,equipmentId);
+
+            return dictionary;
+        }
+
+        /// <summary>
+        /// 打印归还设备并获取、验证、返回用户输入
+        /// </summary>
+        /// <returns>要被归还的设备的Id</returns>
+        public int ReturnEquipment()
+        {
+            Console.WriteLine("请输入要被归还的设备的Id");
+            int equipmentId = Convert.ToInt32(Console.ReadLine());
+            return equipmentId;
+        }
+
+        /// <summary>
+        /// 指定设备未被领用错误打印
+        /// </summary>
+        public void ShowEquipmentNotBorrowError()
+        {
+            Console.WriteLine("指定设备未被领用");
+            Pause();
+        }
+
+        /// <summary>
+        /// 指定设备已经被占用
+        /// </summary>
+        public void ShowEquipmentHasBeenBorrowError()
+        {
+            Console.WriteLine("指定设备已经被占用");
+            Pause();
+        }
+
+        /// <summary>
+        /// 指定设备已经损坏或维修中
+        /// </summary>
+        public void ShowEquipmentCanNotBeBorrowError()
+        {
+            Console.WriteLine("指定设备已经损坏或维修中");
             Pause();
         }
     }
